@@ -3,7 +3,7 @@ package com.miapp.modelo;
 /**
  * Modelo: representa la entidad Estudiante.
  */
-public final class Estudiante {  
+public final class Estudiante extends Persona {  
 
     private static int totalEstudiantes = 0;
     public static final int PROMEDIO_MINIMO = 0;
