@@ -1,6 +1,1 @@
-com\miapp\vista\EstudianteView.class
-com\miapp\controlador\EstudianteController.class
-com\miapp\controlador\IBuscador.class
 com\miapp\SistemaUniversitario.class
-com\miapp\modelo\Estudiante.class
-com\miapp\vista\EstudianteView$1.class

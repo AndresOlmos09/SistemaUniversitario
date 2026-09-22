@@ -11,18 +11,28 @@ public final class Estudiante extends Persona {
     public static final String CARRERA_PREDETERMINADA = "Sin especificar";
 
     // ── Atributos de instancia ────────────────────────────────────────────────
-    private String apellido;
     private String carrera;
     private double promedio;
+    
 
     // ── Constructor ───────────────────────────────────────────────────────────
 
-    public Estudiante(String apellido, String carrera, double promedio, String nombre, int id) {
+    public Estudiante(String carrera, double promedio, String nombre, int id) {
         super(nombre, id);
-        this.apellido = apellido;
         this.carrera = carrera;
         this.promedio = promedio;
+        
+        if (promedio >= PROMEDIO_MINIMO && promedio <= PROMEDIO_MAXIMO) {
+            this.promedio = promedio;
+        } else {
+            this.promedio = 0.0;  // Por defecto si está fuera de rango
+        }
+        
+        // nuevo: Incrementa el contador estático de estudiantes
+        totalEstudiantes++;
     }
+
+    
 
     // ── Métodos estáticos (de clase) ──────────────────────────────────────────
 
@@ -41,12 +51,6 @@ public final class Estudiante extends Persona {
 
     // ── Getters ──────────────────────────────────────────────────────────────
 
-  
-
-    public String getApellido() {
-        return apellido;
-    }
-
     public String getCarrera() { 
         return carrera; 
     }
@@ -56,11 +60,6 @@ public final class Estudiante extends Persona {
     }
 
     // ── Setters ──────────────────────────────────────────────────────────────
-
-
-    public void setApellido(String apellido) { 
-        this.apellido = apellido; 
-    }
 
     public void setCarrera(String carrera) { 
         this.carrera = carrera; 
@@ -84,8 +83,16 @@ public final class Estudiante extends Persona {
     public final String toString() {
         return "ID: " + id
              + " | Nombre: " + getNombre()
-             + " | Apellido: " + apellido   
+             + " | Apellido: " + getApellido()  
              + " | Carrera: " + carrera
              + " | Promedio: " + String.format("%.2f", promedio);
     }
+    
+    @Override
+    public double calcularPago() {
+    // Escribe aquí la lógica para calcular el pago específico del estudiante
+    return 0.0; 
+    }
+    
+    
 }
