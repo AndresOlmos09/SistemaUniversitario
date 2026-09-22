@@ -11,28 +11,17 @@ public final class Estudiante extends Persona {
     public static final String CARRERA_PREDETERMINADA = "Sin especificar";
 
     // ── Atributos de instancia ────────────────────────────────────────────────
-    private int    id;
-    private String nombre;
     private String apellido;
     private String carrera;
     private double promedio;
 
     // ── Constructor ───────────────────────────────────────────────────────────
 
-    public Estudiante(int id, String nombre, String apellido, String carrera, double promedio) {
-        this.id       = id;
-        this.nombre   = nombre;
+    public Estudiante(String apellido, String carrera, double promedio, String nombre, int id) {
+        super(nombre, id);
         this.apellido = apellido;
-        this.carrera  = carrera;
-   
-        if (promedio >= PROMEDIO_MINIMO && promedio <= PROMEDIO_MAXIMO) {
-            this.promedio = promedio;
-        } else {
-            this.promedio = 0.0;  // Por defecto si está fuera de rango
-        }
-        
-        // nuevo: Incrementa el contador estático de estudiantes
-        totalEstudiantes++;
+        this.carrera = carrera;
+        this.promedio = promedio;
     }
 
     // ── Métodos estáticos (de clase) ──────────────────────────────────────────
@@ -52,13 +41,7 @@ public final class Estudiante extends Persona {
 
     // ── Getters ──────────────────────────────────────────────────────────────
 
-    public int getId() { 
-        return id; 
-    }
-
-    public String getNombre() { 
-        return nombre; 
-    }
+  
 
     public String getApellido() {
         return apellido;
@@ -74,13 +57,6 @@ public final class Estudiante extends Persona {
 
     // ── Setters ──────────────────────────────────────────────────────────────
 
-    public void setId(int id) { 
-        this.id = id; 
-    }
-
-    public void setNombre(String nombre) { 
-        this.nombre = nombre; 
-    }
 
     public void setApellido(String apellido) { 
         this.apellido = apellido; 
@@ -107,7 +83,7 @@ public final class Estudiante extends Persona {
     @Override
     public final String toString() {
         return "ID: " + id
-             + " | Nombre: " + nombre
+             + " | Nombre: " + getNombre()
              + " | Apellido: " + apellido   
              + " | Carrera: " + carrera
              + " | Promedio: " + String.format("%.2f", promedio);
