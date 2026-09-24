@@ -17,8 +17,8 @@ public final class Estudiante extends Persona {
 
     // ── Constructor ───────────────────────────────────────────────────────────
 
-    public Estudiante(String carrera, double promedio, String nombre, int id) {
-        super(nombre, id);
+    public Estudiante(String carrera, double promedio, String nombre, int id, String apellido) {
+        super(nombre, id, apellido);
         this.carrera = carrera;
         this.promedio = promedio;
         
@@ -30,6 +30,7 @@ public final class Estudiante extends Persona {
         
         // nuevo: Incrementa el contador estático de estudiantes
         totalEstudiantes++;
+
     }
 
     
@@ -80,7 +81,7 @@ public final class Estudiante extends Persona {
      Método final: no puede ser sobrescrito por subclases
      */
     @Override
-    public final String toString() {
+    public String toString() {
         return "ID: " + id
              + " | Nombre: " + getNombre()
              + " | Apellido: " + getApellido()  

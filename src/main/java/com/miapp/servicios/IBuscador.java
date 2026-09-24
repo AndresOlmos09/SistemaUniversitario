@@ -9,8 +9,11 @@ package com.miapp.servicios;
  * @author taidy
  */
 
+//Interfaz logica
 public interface IBuscador {
     void buscarEstudiante(String criterio);
     void buscarEstudiantePorCarrera(String carrera);
+    void buscarEstudiantePorCurso(String codigoCurso);
+    void buscarEstudiantePorEstado(String estadoMatricula);
     void cargarDatos();
 }
