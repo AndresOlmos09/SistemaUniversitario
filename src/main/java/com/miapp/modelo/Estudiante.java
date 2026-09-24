@@ -3,7 +3,7 @@ package com.miapp.modelo;
 /**
  * Modelo: representa la entidad Estudiante.
  */
-public final class Estudiante extends Persona {  
+public class Estudiante extends Persona {  
 
     private static int totalEstudiantes = 0;
     public static final int PROMEDIO_MINIMO = 0;
@@ -72,6 +72,7 @@ public final class Estudiante extends Persona {
      */
     public void setPromedio(double p) {
         // nuevo: Uso de constantes finales para validación
+        
         if (p >= PROMEDIO_MINIMO && p <= PROMEDIO_MAXIMO) {
             this.promedio = p;
         }

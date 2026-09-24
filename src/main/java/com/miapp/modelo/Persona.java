@@ -9,15 +9,17 @@ package com.miapp.modelo;
  * @author Estudiante
  */
 public abstract class Persona {
-    private String nombre;
+    
+    private String nombre; 
     protected int id;
     private String apellido;
 
-    public Persona(String nombre, int id) {
+    public Persona(String nombre, int id, String apellido) {
         this.nombre = nombre;
         this.id = id;
         this.apellido = apellido;
     }
+
 
     public String getNombre() {
         return nombre;
