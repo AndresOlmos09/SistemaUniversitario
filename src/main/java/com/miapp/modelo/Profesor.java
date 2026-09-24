@@ -25,14 +25,15 @@ public class Profesor extends Persona {
         this.id = id;
     }
 
-    
-    
-    public abstract double calcularPago();
-    
-   
     @Override
     public double calcularPago() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-       
+
+    
+    
+   
+    
+   
+    
 }
