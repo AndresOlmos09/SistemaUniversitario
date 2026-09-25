@@ -1,5 +1,10 @@
 package com.miapp.modelo;
 
+import com.miapp.servicios.Inscribible;
+import com.miapp.utilidades.EstadoMatricula;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Modelo: representa la entidad Estudiante.
  */
@@ -13,7 +18,9 @@ public class Estudiante extends Persona {
     // ── Atributos de instancia ────────────────────────────────────────────────
     private String carrera;
     private double promedio;
+    private EstadoMatricula estado;
     
+    private List<Curso> cursosInscritos;
 
     // ── Constructor ───────────────────────────────────────────────────────────
 
@@ -21,6 +28,9 @@ public class Estudiante extends Persona {
         super(nombre, id, apellido);
         this.carrera = carrera;
         this.promedio = promedio;
+        this.cursosInscritos = new ArrayList<>();
+        this.estado = EstadoMatricula.ACTIVO;
+
         
         if (promedio >= PROMEDIO_MINIMO && promedio <= PROMEDIO_MAXIMO) {
             this.promedio = promedio;
@@ -77,6 +87,54 @@ public class Estudiante extends Persona {
             this.promedio = p;
         }
     }
+    
+    public EstadoMatricula getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoMatricula estado) {
+        this.estado = estado;
+    }
+
+    public List<Curso> getCursosInscritos() {
+        return cursosInscritos;
+    }
+
+    // ── Implementación de la interfaz Inscribible ───────────────────────────
+
+    /**
+     * Inscribe al estudiante en el curso indicado, siempre que:
+     *  - el curso no sea nulo,
+     *  - el estudiante no esté ya inscrito en ese curso,
+     *  - el estudiante no haya alcanzado el máximo de materias (MAX_MATERIAS),
+     *  - el estudiante se encuentre en estado ACTIVO.
+     *
+     * Mantiene consistente la asociación N:M agregando también el estudiante
+     * a la lista de inscritos del curso.
+     *
+     * @param curso curso en el que se desea inscribir al estudiante
+     * @return true si la inscripción fue exitosa, false en caso contrario
+     */
+    @Override
+    public boolean inscribir(Curso curso) {
+        if (curso == null) {
+            return false;
+        }
+        if (estado != EstadoMatricula.ACTIVO) {
+            return false;
+        }
+        if (cursosInscritos.contains(curso)) {
+            return false;
+        }
+        if (cursosInscritos.size() >= MAX_MATERIAS) {
+            return false;
+        }
+
+        cursosInscritos.add(curso);
+        curso.agregarEstudiante(this); // mantiene el otro lado de la relación N:M
+
+        return true;
+    }
 
     /**
      Método final: no puede ser sobrescrito por subclases
@@ -87,7 +145,8 @@ public class Estudiante extends Persona {
              + " | Nombre: " + getNombre()
              + " | Apellido: " + getApellido()  
              + " | Carrera: " + carrera
-             + " | Promedio: " + String.format("%.2f", promedio);
+             + " | Promedio: " + String.format("%.2f", promedio)
+             + " | Estado:  " + estado;
     }
     
     @Override
