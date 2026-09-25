@@ -8,12 +8,13 @@ import java.util.List;
 /**
  * Modelo: representa la entidad Estudiante.
  */
-public class Estudiante extends Persona {  
+public class Estudiante extends Persona implements Inscribible{  
 
     private static int totalEstudiantes = 0;
     public static final int PROMEDIO_MINIMO = 0;
     public static final int PROMEDIO_MAXIMO = 5;
     public static final String CARRERA_PREDETERMINADA = "Sin especificar";
+    public static final int MAX_MATERIAS = 6;
 
     // ── Atributos de instancia ────────────────────────────────────────────────
     private String carrera;

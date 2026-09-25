@@ -11,12 +11,15 @@ package com.miapp.modelo;
 public class Profesor extends Persona {
 
     private final double salarioBase;
+    private int clasesImpartidas;
+    private static final double BONIFICACION_POR_CLASE = 50000.0;
 
-    public Profesor(double salarioBase, String nombre, int id, String apellido) {
+   public Profesor(String nombre, int id, String apellido, double salarioBase) {
         super(nombre, id, apellido);
         this.salarioBase = salarioBase;
+        this.clasesImpartidas = 0;
     }
-
+   
     public int getId() {
         return id;
     }
@@ -24,10 +27,25 @@ public class Profesor extends Persona {
     public void setId(int id) {
         this.id = id;
     }
+    
+    public double getSalarioBase() {
+        return salarioBase;
+    }
 
+    public int getClasesImpartidas() {
+        return clasesImpartidas;
+    }
+    
+    public void impartirClase() {
+        clasesImpartidas++;
+        System.out.println("El profesor " + getNombre() + " " + getApellido()
+                + " está impartiendo una clase. Total de clases: " + clasesImpartidas);
+    }
+
+    
     @Override
     public double calcularPago() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return salarioBase + (clasesImpartidas * BONIFICACION_POR_CLASE);
     }
 
     
