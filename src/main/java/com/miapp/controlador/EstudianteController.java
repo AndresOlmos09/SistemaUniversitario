@@ -16,6 +16,8 @@ public class EstudianteController implements IBuscador {
     private static final String MENSAJE_BUSQUEDA_VACIA = "Por favor ingrese un nombre para buscar.";
     private static final String MENSAJE_BUSQUEDA_CARRERA_VACIA = "Por favor seleccione una carrera para buscar.";
     // agregar mensaje de busqueda curso y estado vacia
+    private static final String MENSAJE_BUSQUEDA_ESTADO_VACIO = "Por favor seleccione un estado para buscar. ";
+    private static final String MENSAJE_BUSQUEDA_CURSO_VACIO = "Por favor seleccione un curso para buscar.";
     private static final String MENSAJE_SIN_RESULTADOS = "No se encontraron estudiantes con ese criterio.";
 
     // ── Vista ─────────────────────────────────────────────────────────────────
