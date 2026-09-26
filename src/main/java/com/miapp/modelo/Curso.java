@@ -19,7 +19,7 @@ public class Curso {
     private List<Estudiante> estudiantesInscritos;
     
     //Constructor
-    public Curso(String codigo, String nombre, int creditos, List<Estudiante> estudiantesInscritos) {
+    public Curso(String codigo, String nombre, int creditos) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.creditos = creditos;

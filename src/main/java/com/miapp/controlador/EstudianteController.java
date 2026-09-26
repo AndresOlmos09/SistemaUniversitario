@@ -1,8 +1,11 @@
 
 package com.miapp.controlador;
 
+import com.miapp.modelo.Curso;
 import com.miapp.modelo.Estudiante;
+import com.miapp.modelo.Profesor;
 import com.miapp.servicios.IBuscador;
+import com.miapp.utilidades.EstadoMatricula;
 import com.miapp.vista.EstudianteView;
 
 import java.util.ArrayList;
@@ -25,8 +28,8 @@ public class EstudianteController implements IBuscador {
 
     // ── Array de estudiantes (fuente de datos) ────────────────────────────────
     private Estudiante[] estudiantes;
-    //private List<Curso> cursos;
-    //private List<Profesor> profesores;
+    private List<Curso> cursos;
+    private List<Profesor> profesores;
 
     // ── Constructor ───────────────────────────────────────────────────────────
 
@@ -54,7 +57,17 @@ public class EstudianteController implements IBuscador {
     public void buscarEstudiantePorCarrera(String carrera) {
         buscarPorCarrera(carrera);
     }
-    
+
+    @Override
+    public void buscarEstudiantePorCurso(String codigoCurso) {
+        buscarPorCurso(codigoCurso);
+    }
+
+    @Override
+    public void buscarEstudiantePorEstado(String estadoMatricula) {
+        buscarPorEstado(estadoMatricula);
+    }
+
 
     // ── Carga de datos iniciales ──────────────────────────────────────────────
 
@@ -64,7 +77,35 @@ public class EstudianteController implements IBuscador {
         // Reinicia el contador estático de Estudiante antes de cargar nuevos datos
         Estudiante.reiniciarContador();
 
-        
+        // ── Cursos de ejemplo ───────────────────────────────────────────────
+        cursos = new ArrayList<>();
+        cursos.add(new Curso("SIS101", "Programación Orientada a Objetos", 4));
+        cursos.add(new Curso("MAT201", "Cálculo Diferencial", 3));
+        cursos.add(new Curso("BDA150", "Bases de Datos", 4));
+
+        // ── Profesores de ejemplo (usan impartirClase() y calcularPago()) ────
+        profesores = new ArrayList<>();
+        Profesor profesor1 = new Profesor("Laura", 1, "Gómez", 2500000.0);
+        profesor1.impartirClase();
+        profesores.add(profesor1);
+
+       // ── Estudiantes de ejemplo (demuestran Inscribible y N:M) ───────────
+        Estudiante e1 = new Estudiante("Ingeniería de Sistemas", 4.2, "Camila", 1, "Torres");
+        Estudiante e2 = new Estudiante("Ingeniería Industrial", 3.8, "Andrés", 2, "Ramírez");
+        Estudiante e3 = new Estudiante("Ingeniería de Sistemas", 4.5, "Sofía", 3, "López");
+
+        // Inscripciones de ejemplo (relación N:M Estudiante–Curso)
+        e1.inscribir(cursos.get(0));
+        e1.inscribir(cursos.get(2));
+        e2.inscribir(cursos.get(0));
+        e2.inscribir(cursos.get(1));
+        e3.inscribir(cursos.get(1));
+        e3.inscribir(cursos.get(2));
+
+        estudiantes[0] = e1;
+        estudiantes[1] = e2;
+        estudiantes[2] = e3;
+
         // Log: informa cuántos estudiantes se cargaron usando static getTotalEstudiantes()
         System.out.println("Total de estudiantes cargados: " + Estudiante.getTotalEstudiantes());
     }
@@ -124,6 +165,56 @@ public class EstudianteController implements IBuscador {
         vista.mostrarEstudiantes(convertirAFilas(resultados));
     }
 
+    /**
+     * Busca estudiantes inscritos en un curso específico, recorriendo
+     * la relación N:M Estudiante–Curso.
+     */
+    private void buscarPorCurso(String codigoCurso) {
+        if (codigoCurso == null || codigoCurso.isEmpty()) {
+            vista.mostrarError(MENSAJE_BUSQUEDA_CURSO_VACIO);
+            return;
+        }
+
+        List<Estudiante> resultados = new ArrayList<>();
+        for (Estudiante e : estudiantes) {
+            if (e != null) {
+                for (Curso c : e.getCursosInscritos()) {
+                    if (c.getCodigo().equalsIgnoreCase(codigoCurso)) {
+                        resultados.add(e);
+                        break;
+                    }
+                }
+            }
+        }
+
+        vista.mostrarEstudiantes(convertirAFilas(resultados));
+    }
+
+    /**
+     * Busca estudiantes según su EstadoMatricula (ACTIVO, EGRESADO, RETIRADO).
+     */
+    private void buscarPorEstado(String estadoMatricula) {
+        if (estadoMatricula == null || estadoMatricula.isEmpty()) {
+            vista.mostrarError(MENSAJE_BUSQUEDA_ESTADO_VACIO);
+            return;
+        }
+
+        List<Estudiante> resultados = new ArrayList<>();
+        try {
+            EstadoMatricula estadoBuscado = EstadoMatricula.valueOf(estadoMatricula.toUpperCase());
+            for (Estudiante e : estudiantes) {
+                if (e != null && e.getEstado() == estadoBuscado) {
+                    resultados.add(e);
+                }
+            }
+        } catch (IllegalArgumentException ex) {
+            vista.mostrarError("Estado de matrícula no válido: " + estadoMatricula);
+            return;
+        }
+
+        vista.mostrarEstudiantes(convertirAFilas(resultados));
+    }
+
     
     private Object[] convertirAFila(Estudiante e) {
         return new Object[]{
@@ -146,7 +237,7 @@ public class EstudianteController implements IBuscador {
 
     public Estudiante obtenerEstudiantePorId(int id) {
         for (Estudiante e : estudiantes) {
-            if (e.getId() == id) {
+            if (e != null && e.getId() == id) {
                 return e;
             }
         }
@@ -194,7 +285,7 @@ public class EstudianteController implements IBuscador {
 
         // Crear nuevo estudiante con ID automático basado en el contador static
         int proximoId = Estudiante.getProximoId();
-        Estudiante nuevoEstudiante = new Estudiante(proximoId, nombre, apellido, carrera, promedio);
+        Estudiante nuevoEstudiante = new Estudiante(carrera, promedio, nombre, proximoId, apellido);
 
         // Agregar el nuevo estudiante en la posición correcta
         estudiantes[indiceNuevoEstudiante] = nuevoEstudiante;

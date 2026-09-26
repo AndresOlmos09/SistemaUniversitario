@@ -11,14 +11,14 @@ import java.util.List;
 public class EstudianteView extends JFrame {
 
     // ── Constantes finales para dimensiones ────────────────────────────────────
-    private static final int ANCHO_VENTANA = 1000;
-    private static final int ALTO_VENTANA = 700;
+    private static final int ANCHO_VENTANA = 1300;
+    private static final int ALTO_VENTANA = 900;
     private static final int ANCHO_CAMPO_BUSQUEDA = 18;
     private static final int ANCHO_CAMPO_AGREGAR = 12;
     private static final int ALTO_FILA_TABLA = 24;
 
     // ── Constantes finales para textos ─────────────────────────────────────────
-    private static final String TITULO_VENTANA = "Gestión de Estudiantes — MVC (Búsqueda + Agregar)";
+    private static final String TITULO_VENTANA = "Gestión de Estudiantes — MVC (Búsqueda + Agregar + Cursos + Profesores )";
     private static final String TITULO_PANEL_BUSQUEDA = "Buscar estudiante por nombre";
     private static final String TITULO_PANEL_CARRERA = "Buscar por carrera";
     private static final String TITULO_PANEL_AGREGAR = "Agregar nuevo estudiante";
@@ -167,12 +167,121 @@ public class EstudianteView extends JFrame {
         panelAgregar.add(lblAgregarPromedio);
         panelAgregar.add(spinPromedio);
         panelAgregar.add(btnAgregar);
+        
+        // ────────────────────────────────────────────────────────────────────────
+        // Panel Cursos: inscripción y consulta (Fila 4)
+        // ────────────────────────────────────────────────────────────────────────
+        JPanel panelCursos = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        panelCursos.setBorder(BorderFactory.createTitledBorder("Cursos: inscripción y consulta"));
+        
+        JLabel lblCurso = new JLabel("Curso:");
+        JComboBox<String> cmbCurso = new JComboBox<>();
+        cmbCurso.addItem(OPCION_SELECCIONAR); // O cargar desde BD
+        
+        JButton btnVerEstudiantesCurso = new JButton("Ver estudiantes del curso");
+        btnVerEstudiantesCurso.setBackground(new Color(0, 150, 136)); // Verde Azulado
+        btnVerEstudiantesCurso.setForeground(Color.WHITE);
+        
+        JButton btnInscribirCurso = new JButton("Inscribir en curso");
+        btnInscribirCurso.setBackground(new Color(255, 152, 0)); // Naranja
+        btnInscribirCurso.setForeground(Color.WHITE);
+        
+        JLabel lblInstruccionInscribir = new JLabel("(primero busque y seleccione un estudiante en la tabla)");
+        lblInstruccionInscribir.setForeground(Color.GRAY);
+        
+        JLabel lblProfesorAsignado = new JLabel("Profesor asignado: (ninguno)");
+        lblProfesorAsignado.setForeground(Color.BLUE);
+        lblProfesorAsignado.setFont(lblProfesorAsignado.getFont().deriveFont(Font.BOLD));
 
+        panelCursos.add(lblCurso);
+        panelCursos.add(cmbCurso);
+        panelCursos.add(btnVerEstudiantesCurso);
+        panelCursos.add(btnInscribirCurso);
+        panelCursos.add(lblInstruccionInscribir);
+        panelCursos.add(lblProfesorAsignado);
+
+        // ────────────────────────────────────────────────────────────────────────
+        // Panel Profesores: agregar y asignar a curso (Fila 5)
+        // ────────────────────────────────────────────────────────────────────────
+        JPanel panelProfesores = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        panelProfesores.setBorder(BorderFactory.createTitledBorder("Profesores: agregar y asignar a curso"));
+        
+        JLabel lblProfNombre = new JLabel("Nombre:");
+        JTextField txtProfesorNombre = new JTextField(12);
+        
+        JLabel lblSalario = new JLabel("Salario base:");
+        JSpinner spinSalarioBase = new JSpinner(new SpinnerNumberModel(3000000, 0, 100000000, 100000));
+        
+        JButton btnAgregarProfesor = new JButton("Agregar Profesor");
+        btnAgregarProfesor.setBackground(new Color(63, 81, 181)); // Índigo
+        btnAgregarProfesor.setForeground(Color.WHITE);
+        
+        JLabel lblProfesor = new JLabel("Profesor:");
+        JComboBox<String> cmbProfesor = new JComboBox<>();
+        cmbProfesor.addItem(OPCION_SELECCIONAR);
+        
+        JButton btnVerCursosProfesor = new JButton("Ver cursos del profesor");
+        btnVerCursosProfesor.setBackground(new Color(0, 150, 136)); 
+        btnVerCursosProfesor.setForeground(Color.WHITE);
+        
+        JLabel lblCursoAsignar = new JLabel("Curso a asignar:");
+        JComboBox<String> cmbCursoAsignar = new JComboBox<>();
+        cmbCursoAsignar.addItem(OPCION_SELECCIONAR);
+        
+        JButton btnAsignarACurso = new JButton("Asignar a curso");
+        btnAsignarACurso.setBackground(new Color(63, 81, 181));
+        btnAsignarACurso.setForeground(Color.WHITE);
+
+        panelProfesores.add(lblProfNombre);
+        panelProfesores.add(txtProfesorNombre);
+        panelProfesores.add(lblSalario);
+        panelProfesores.add(spinSalarioBase);
+        panelProfesores.add(btnAgregarProfesor);
+        panelProfesores.add(lblProfesor);
+        panelProfesores.add(cmbProfesor);
+        panelProfesores.add(btnVerCursosProfesor);
+        panelProfesores.add(lblCursoAsignar);
+        panelProfesores.add(cmbCursoAsignar);
+        panelProfesores.add(btnAsignarACurso);
+
+        // ────────────────────────────────────────────────────────────────────────
+        // Panel Estado de matrícula (Fila 6)
+        // ────────────────────────────────────────────────────────────────────────
+        JPanel panelEstado = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        panelEstado.setBorder(BorderFactory.createTitledBorder("Estado de matrícula: buscar y cambiar"));
+        
+        JLabel lblNuevoEstado = new JLabel("Nuevo estado:");
+        JComboBox<String> cmbNuevoEstado = new JComboBox<>();
+        cmbNuevoEstado.addItem(OPCION_SELECCIONAR);
+        // Opcional: Agregar estados aquí (Ej: Matriculado, Suspendido, etc.)
+        
+        JButton btnBuscarPorEstado = new JButton("Buscar por estado");
+        btnBuscarPorEstado.setBackground(new Color(76, 175, 80)); // Verde
+        btnBuscarPorEstado.setForeground(Color.WHITE);
+        
+        JButton btnCambiarEstado = new JButton("Cambiar estado");
+        btnCambiarEstado.setBackground(new Color(0, 150, 136));
+        btnCambiarEstado.setForeground(Color.WHITE);
+        
+        JLabel lblInstruccionEstado = new JLabel("(\"Cambiar estado\" requiere seleccionar un estudiante en la tabla)");
+        lblInstruccionEstado.setForeground(Color.GRAY);
+
+        panelEstado.add(lblNuevoEstado);
+        panelEstado.add(cmbNuevoEstado);
+        panelEstado.add(btnBuscarPorEstado);
+        panelEstado.add(btnCambiarEstado);
+        panelEstado.add(lblInstruccionEstado);
+        
         // Panel superior con GridLayout (3 filas, 1 columna)
-        JPanel panelSuperior = new JPanel(new GridLayout(3, 1, 5, 5));
+        JPanel panelSuperior = new JPanel(new GridLayout(6, 1, 5, 5));
         panelSuperior.add(panelBusqueda);
         panelSuperior.add(panelCarrera);
         panelSuperior.add(panelAgregar);
+        panelSuperior.add(panelCursos);      
+        panelSuperior.add(panelProfesores);  
+        panelSuperior.add(panelEstado);
+        
+        
 
         // ────────────────────────────────────────────────────────────────────────
         // PANEL CENTRAL: Tabla de resultados

@@ -1,1 +1,11 @@
+com\miapp\utilidades\EstadoMatricula.class
+com\miapp\servicios\IBuscador.class
+com\miapp\modelo\Profesor.class
+com\miapp\vista\EstudianteView.class
+com\miapp\controlador\EstudianteController.class
 com\miapp\SistemaUniversitario.class
+com\miapp\modelo\Estudiante.class
+com\miapp\modelo\Curso.class
+com\miapp\modelo\Persona.class
+com\miapp\servicios\Inscribible.class
+com\miapp\vista\EstudianteView$1.class
